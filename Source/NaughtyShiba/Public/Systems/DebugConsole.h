@@ -5,8 +5,6 @@
 #include "Engine/World.h"
 #include "DebugConsole.generated.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(LogNaughtyDebug, Log, All);
-
 /**
  * Debug console system for development and testing
  * Provides in-game console commands and debugging utilities
@@ -17,6 +15,8 @@ class NAUGHTYSHIBA_API UDebugConsole : public UObject
     GENERATED_BODY()
 
 public:
+    
+    void HandleCheckInputCommand(const TArray<FString>& Args);
     // Singleton access pattern
     static UDebugConsole* GetInstance(UWorld* World);
     
@@ -52,11 +52,36 @@ public:
     void EndPerformanceTimer(const FString& TimerName);
 
 private:
+    
+    void HandleSpawnDebugCommand(const TArray<FString>& Args);
+    
     // Command handling functions
     void HandleTeleportCommand(const TArray<FString>& Args);
     void HandleSpawnCommand(const TArray<FString>& Args);
     void HandleCourageCommand(const TArray<FString>& Args);
     void HandleHelpCommand(const TArray<FString>& Args);
+    
+    // GMCv2-specific debug commands
+    void HandleGameStateCommand(const TArray<FString>& Args);
+    void HandleNetInfoCommand(const TArray<FString>& Args);
+    void HandlePlayersCommand(const TArray<FString>& Args);
+    void HandlePerfMonCommand(const TArray<FString>& Args);
+    void HandleTimeSyncCommand(const TArray<FString>& Args);
+
+    // Core Systems debug commands
+    void HandleInputCommand(const TArray<FString>& Args);
+    void HandleSaveCommand(const TArray<FString>& Args);
+    void HandleLoadCommand(const TArray<FString>& Args);
+    void HandleUICommand(const TArray<FString>& Args);
+    void HandleComponentsCommand(const TArray<FString>& Args);
+    void HandleSystemsCommand(const TArray<FString>& Args);
+
+    // Network testing commands
+    void HandleLagTestCommand(const TArray<FString>& Args);
+    void HandleDisconnectCommand(const TArray<FString>& Args);
+
+    UPROPERTY()
+    UWorld* CachedWorld;
     
     // Internal state
     static UDebugConsole* Instance;
